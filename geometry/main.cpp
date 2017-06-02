@@ -3,6 +3,7 @@
 #include "Triangle.h"
 #include "TriangleGenerator.h"
 #include "Mesh.h"
+#include "SystemCall.h"
 
 #include <chrono>
 
@@ -16,14 +17,14 @@ int main()
 	try
 	{
 		testTimeComplexity();
-		system("pause");
+		SystemCall::wait_for_user_keypress();
 		return 0;
 
 	}
 	catch (const std::exception& e)
 	{
 		std::cerr << "Exception Occurred. Message: " << e.what() << std::endl;
-		system("pause");
+		SystemCall::wait_for_user_keypress();
 		return 1;
 	}
 }
@@ -50,7 +51,7 @@ double getConnectivityFormationTime(int N)
 	std::vector<Triangle<Point3, int>> triangles
 		= t.getTrianglesFrom2dGrid(1, 1, N, N);
 
-	//first 
+	//first
 	clk::time_point t1 = clk::now();
 	Mesh<Point3, int> m(triangles);
 	clk::time_point t2 = clk::now();

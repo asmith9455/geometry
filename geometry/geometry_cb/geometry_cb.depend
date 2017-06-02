@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1496375064 source:/home/alex/source/geometry/geometry/main.cpp
+	<iostream>
+	"Point3.h"
+	"Triangle.h"
+	"TriangleGenerator.h"
+	"Mesh.h"
+	"SystemCall.h"
+	<chrono>
+
+1496373675 /home/alex/source/geometry/geometry/Point3.h
+
+1496373675 /home/alex/source/geometry/geometry/Triangle.h
+	"Point3.h"
+
+1496373675 /home/alex/source/geometry/geometry/TriangleGenerator.h
+	<vector>
+	"Triangle.h"
+
+1496373675 /home/alex/source/geometry/geometry/Mesh.h
+	<vector>
+	"Triangle.h"
+	<unordered_map>
+
+1496374902 /home/alex/source/geometry/geometry/SystemCall.h
+	"applicationDefines.h"
+	<stdexcept>
+	<Windows.h>
+	<dirent.h>
+	<sys/types.h>
+	<vector>
+	<string>
+	<iostream>
+
+1496375183 /home/alex/source/geometry/geometry/applicationDefines.h
+
