@@ -110,13 +110,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="applicationDefines.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="SystemCall.h" />
     <ClInclude Include="TriangleGenerator.h" />
     <ClInclude Include="Point3.h" />
     <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SystemCall.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -44,8 +44,10 @@ namespace std
 	{
 		size_t operator()(Point3<ComponentT> const & p) const noexcept
 		{
+			//Use extremely large primes to reduce the number of collisions that occur in 
+			//hash maps with a large number of points (as keys).
 			return (
-				(51 + std::hash<ComponentT>()(p.components[0])) * 51
+				(10007 + std::hash<ComponentT>()(p.components[0])) * 99991
 				+ std::hash<ComponentT>()(p.components[1])
 				);
 		}

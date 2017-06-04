@@ -9,7 +9,7 @@
 
 typedef std::chrono::high_resolution_clock clk;
 
-double getConnectivityFormationTime(int);
+__int64 getConnectivityFormationTime(int);
 void testTimeComplexity();
 
 int main()
@@ -32,19 +32,19 @@ int main()
 void testTimeComplexity()
 {
 	std::vector<int> Ns = { 1000,2000,3000 };
-	std::vector<double> times;
+	std::vector<__int64> times;
 
 	for (size_t i = 0; i < Ns.size(); i++)
 	{
-		double time = getConnectivityFormationTime(Ns[i]);
+		__int64 time = getConnectivityFormationTime(Ns[i]);
 		times.push_back(time);
 		int numTris = (Ns[i] - 1)*(Ns[i] - 1) * 2;
 		std::cout << "Time to form connectivity is " << time << " ms for " << numTris << " triangles.";
-		std::cout << " ( " << (double)numTris / time << " triangles per ms ) " << std::endl;
+		std::cout << " ( " << (double)numTris / (double)time << " triangles per ms ) " << std::endl;
 	}
 }
 
-double getConnectivityFormationTime(int N)
+__int64 getConnectivityFormationTime(int N)
 {
 	TriangleGenerator<Point3, int> t(0);
 
@@ -56,7 +56,7 @@ double getConnectivityFormationTime(int N)
 	Mesh<Point3, int> m(triangles);
 	clk::time_point t2 = clk::now();
 
-	double dif = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+	__int64 dif = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
 
 	return dif;
 }

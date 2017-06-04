@@ -1,3 +1,3 @@
-//#define Windows
-#define Linux
+#define Windows
+//#define Linux
 #define EnableUserPause
