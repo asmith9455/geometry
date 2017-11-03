@@ -10,7 +10,7 @@ class Mesh
 public:
 	std::unordered_map<PointT<ComponentT>, std::vector<size_t> > connectivity;
 
-	
+	Mesh() {}
 	//std::pair<std::string, double> mapPair;
 
 	Mesh(std::vector<Triangle<PointT, ComponentT>> tris)

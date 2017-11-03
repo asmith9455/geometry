@@ -1,36 +1,63 @@
 #pragma once
-#include <initializer_list>
 
-template <class component_t, int dimension>
+template <class component_t, size_t dimension>
 class PointN
 {
 private:
 
-	const int m_dimension = dimension;
+	static_assert(dimension == 3 || dimension == 2, "PointN must have dimension 2 or 3.");
 
-	component_t m_components[m_dimension] = {};
+	component_t m_components[dimension];
 
 public:
 
+	
+
+	PointN(component_t x, component_t y) {
+		set_components(x, y);
+	}
 	PointN() {}
 
-	PointN(std::initializer_list<component_t> component_list) {
-		this->set_components(component_list);
+
+	PointN(component_t x, component_t y, component_t z) {
+		set_components(x, y, z);
 	}
 
-	void setComponents(std::initializer_list<component_t> component_list) {
-		
-		assert(component_list.size() == m_dimension);
-
-		int i = 0;
-		for (component_t& c : component_list) {
-			components[i] = c;
-			i++;
-		}
+	void set_components(component_t x, component_t y) {
+		static_assert(dimension == 2, "This function is valid for dimension 2 points only");
+		m_components[0] = x;
+		m_components[1] = y;
 	}
 
+	void set_components(component_t x, component_t y, component_t z) {
+		static_assert(dimension == 3, "This function is valid for dimension 3 points only");
+		m_components[0] = x;
+		m_components[1] = y;
+		m_components[2] = z;
+	}
 
+	component_t x() {
+		return m_components[0];
+	}
 
+	component_t y() {
+		return m_components[1];
+	}
+
+	component_t z() {
+		static_assert(dimension == 3, "Z component is only avaliable for points of dimension 3.");
+		return m_components[2];
+	}
+
+	static bool x_less_than(PointN& p1, PointN& p2)
+	{
+		return p1.x() < p2.x();
+	}
+
+	static bool y_less_than(PointN& p1, PointN& p2)
+	{
+		return p1.y() < p2.y();
+	}
 
 };
 
