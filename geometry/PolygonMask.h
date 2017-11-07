@@ -2,6 +2,9 @@
 #include "Matrix.h"
 #include "Polygon.h"
 #include "Rectangle.h"
+#include "GuiInterface.h"
+#include <string>
+//#include <opencv2/highgui/highgui.hpp>
 
 template<template <class component_t, size_t dimension> class point_t, class component_t, size_t dimension, class resolution_t>
 class PolygonMask {
@@ -15,39 +18,21 @@ class PolygonMask {
 
 	typedef Polygon<component_t, dimension> poly_t;
 	typedef Rectangle<component_t> rectangle_t;
-	typedef Matrix<bool> matrix_t1;
-	typedef Matrix<component_t> matrix_t2;
+	typedef uchar matrix_component_t;	//just has to hold 0 or 1, and std vector used in Matrix<T> doesn't play well with bool
+	typedef Matrix<matrix_component_t> matrix_t1;
 	typedef point_t<component_t, dimension> point_tt;
 
 	resolution_t m_resolution;
 	matrix_t1 m_matrix;
-	matrix_t2 m_coordinates;
-	point_t<component_t, dimension> m_lower_left_corner;
-	
+	rectangle_t m_bounding_rectangle;
+	poly_t m_polygon;
 
-public:
+	void allocate_memory() {
 
-	PolygonMask(poly_t p, resolution_t resolution) {
-		
-		//first find the x and y distances
-		assert(!p.empty());
+		size_t number_of_columns = static_cast<size_t>(m_bounding_rectangle.width() / m_resolution) + 1;
+		size_t number_of_rows = static_cast<size_t>(m_bounding_rectangle.height() / m_resolution) + 1;
 
-		m_resolution = resolution;
-
-		rectangle_t r = p.get_bounding_box();
-
-		m_lower_left_corner = r.get_lower_left_point();
-
-		size_t number_of_columns = static_cast<size_t>(r.width() / m_resolution) + 1;
-		size_t number_of_rows = static_cast<size_t>(r.height() / m_resolution) + 1;
-
-		m_matrix = matrix_t1(number_of_rows, number_of_columns, mask_category::undeclared);
-
-		point_tt default_point = point_tt(0.0, 0.0);
-
-		m_coordinates = matrix_t2(number_of_rows, number_of_columns, default_point);
-
-		//now need to fill in the parts of the mask - regions must be marked as inside, outside, and on the boundary
+		m_matrix = matrix_t1(number_of_rows, number_of_columns, false);// mask_category::undeclared);
 
 		for (size_t row = 0; row != number_of_rows; row++) {
 			for (size_t col = 0; col != number_of_columns; col++) {
@@ -55,18 +40,104 @@ public:
 				size_t adjusted_row_index = number_of_rows - 1 - row;
 
 				point_tt point = point_tt(
-					static_cast<component_t>(col*m_resolution) + m_lower_left_corner.x(), 
-					static_cast<component_t>(adjusted_row_index*m_resolution) + m_lower_left_corner.y()
+					static_cast<component_t>(col*m_resolution) + m_bounding_rectangle.get_lower_left_point().x(),
+					static_cast<component_t>(adjusted_row_index*m_resolution) + m_bounding_rectangle.get_lower_left_point().y()
 				);
 
-				m_matrix[adjusted_row_index][col] = p.contains_xy(point);
-
+				matrix_component_t val = m_polygon.contains_xy(point) * 255;
+				m_matrix(adjusted_row_index, col) = val;
 
 
 			}
 		}
+	}
 
+public:
+
+	PolygonMask() {}
+
+	PolygonMask(poly_t p, resolution_t resolution) {
 		
+		//first find the x and y distances
+		assert(!p.empty());
+		
+		m_bounding_rectangle = p.get_bounding_box();
+		m_polygon = p;
+		m_resolution = resolution;
+
+		allocate_memory();
+		
+	}
+
+	PolygonMask(poly_t p, resolution_t resolution, rectangle_t bounding_box) {
+
+		//first find the x and y distances
+		assert(!p.empty());
+
+		m_resolution = resolution;
+		m_polygon = p;
+		m_bounding_rectangle = bounding_box;
+		
+		allocate_memory();
+
+	}
+
+	/*void add(const PolygonMask& pm) {
+		m_matrix.add(pm.m_matrix);
+	}*/
+
+	size_t width() {
+		return m_matrix.width();
+	}
+
+	size_t height() {
+		return m_matrix.height();
+	}
+
+	PolygonMask match_size_to(PolygonMask pm) {
+		//must have the same size for each
+		component_t x_min = std::min(
+			m_bounding_rectangle.get_lower_left_point().x(),
+			pm.m_bounding_rectangle.get_lower_left_point().x()
+		);
+
+		component_t y_min = std::min(
+			m_bounding_rectangle.get_lower_left_point().y(),
+			pm.m_bounding_rectangle.get_lower_left_point().y()
+		);
+
+		component_t x_max = std::max(
+			m_bounding_rectangle.get_upper_right_point().x(),
+			pm.m_bounding_rectangle.get_upper_right_point().x()
+		);
+
+		component_t y_max = std::max(
+			m_bounding_rectangle.get_upper_right_point().y(),
+			pm.m_bounding_rectangle.get_upper_right_point().y()
+		);
+
+		rectangle_t new_bounding_box({ {x_min, y_min}, {x_max, y_max} });
+
+		auto new_pm = PolygonMask(m_polygon, m_resolution, new_bounding_box);
+
+		return new_pm;
+	}
+
+	Matrix<uchar>& get_data_matrix() {
+		return m_matrix;
+	}
+
+	//count of non-zero elements
+	size_t area() {
+		return m_matrix.area();
+	}
+
+	PolygonMask operator*=(matrix_component_t scalar) {
+		m_matrix.multiply_scalar(scalar);
+	}
+
+	void show(std::string name, bool close_all = false) {
+		GuiInterface::show_image<uchar>(name, get_data_matrix(), close_all);
 	}
 
 	/*BinaryMask(BinaryMask mask1, BinaryMask mask2) {

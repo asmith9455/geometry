@@ -25,10 +25,6 @@ public:
 	
 	Polygon() {}
 
-	Polygon& operator=(const Polygon&) {
-		return *this;
-	}
-
 	Polygon(std::initializer_list<point_t> points){
 		for (auto p : points)
 			m_points.push_back(p);
