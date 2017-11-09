@@ -73,7 +73,7 @@ public:
 		}
 
 
-		int height = 480;
+		int height = 360;
 
 		double resize_factor = static_cast<double>(height) / img.rows;
 		int new_width = static_cast<int>(resize_factor * img.cols);
