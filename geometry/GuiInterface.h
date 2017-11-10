@@ -31,6 +31,24 @@ public:
 	}
 
 	template<class T>
+	static void show_images(std::vector<std::string> names, std::vector<Matrix<T>> mats, bool close_all_windows = false) {
+		
+		auto name = names.begin();
+		auto mat = mats.begin();
+
+		for (;
+			name != names.end() && mat != mats.end();
+			name++, mat++)
+			show_image<T>(*name, *mat, false);
+
+		if (close_all_windows) {
+			cv::waitKey(0);
+			cv::destroyAllWindows();
+		}
+
+	}
+
+	template<class T>
 	static void show_image(std::string name, Matrix<T> m, bool close_all_windows = false) {
 
 		{ //UNCOMMENT TO DISPLAY EACH ITERATION

@@ -132,7 +132,6 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="SystemCall.h" />
     <ClInclude Include="TriangleGenerator.h" />
-    <ClInclude Include="Point3.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="X.h" />
   </ItemGroup>

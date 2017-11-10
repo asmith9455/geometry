@@ -6,17 +6,21 @@
 #include <algorithm>
 #include <assert.h>
 
-template<class component_t, size_t point_dimension>
+template<class TPoint>
 //template < class point_t>
 class Polygon {
 
+public:
+	using point_t = TPoint;
+	using component_t = typename point_t::component_t;
 	
+	static const auto dimension = point_t::dimension;
 
-	static_assert(point_dimension == 2 || point_dimension == 3, "The dimension of the points in the polygon must be 2 or 3");
+	static_assert(dimension == 2 || dimension == 3, "The dimension of the points in the polygon must be 2 or 3");
 
-	typedef PointN<component_t, point_dimension> point_t;
-	typedef std::vector<point_t> points_t;
+	using points_t = std::vector<point_t>;
 
+private:
 	points_t m_points;
 
 public:

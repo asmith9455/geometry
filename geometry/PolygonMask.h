@@ -6,21 +6,23 @@
 #include <string>
 //#include <opencv2/highgui/highgui.hpp>
 
-template<template <class component_t, size_t dimension> class point_t, class component_t, size_t dimension, class resolution_t>
+template<class TPolygon, class TResolution, class TBool>
 class PolygonMask {
 
-	enum mask_category {
-		inside,
-		outside,
-		boundary,
-		undeclared
-	};
+public:
 
-	typedef Polygon<component_t, dimension> poly_t;
-	typedef Rectangle<component_t> rectangle_t;
-	typedef uchar matrix_component_t;	//just has to hold 0 or 1, and std vector used in Matrix<T> doesn't play well with bool
-	typedef Matrix<matrix_component_t> matrix_t1;
-	typedef point_t<component_t, dimension> point_tt;
+	using bool_t = TBool;
+	using poly_t = TPolygon;
+	using resolution_t = TResolution;
+	using point_t = typename poly_t::point_t;
+	using component_t = typename poly_t::component_t;
+	using rectangle_t = Rectangle <component_t>;
+	using matrix_component_t = bool_t;				//just has to hold 0 or 1, and std vector used in Matrix<T> doesn't play well with bool
+	using matrix_t1 = Matrix<matrix_component_t>;
+
+	static const auto dimension = poly_t::dimension;
+
+private:
 
 	resolution_t m_resolution;
 	matrix_t1 m_matrix;
@@ -39,7 +41,7 @@ class PolygonMask {
 
 				size_t adjusted_row_index = number_of_rows - 1 - row;
 
-				point_tt point = point_tt(
+				point_t point = point_t(
 					static_cast<component_t>(col*m_resolution) + m_bounding_rectangle.get_lower_left_point().x(),
 					static_cast<component_t>(adjusted_row_index*m_resolution) + m_bounding_rectangle.get_lower_left_point().y()
 				);

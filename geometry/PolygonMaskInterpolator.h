@@ -4,12 +4,17 @@
 #include <Matrix.h>
 #include <GuiInterface.h>
 
-template <class polygon_mask_t, class matrix_component_t, class weight_t, class bool_t>
+template <class polygon_mask_t, class weight_t, class dist_map_component_t>
 class PolygonMaskInterpolator {
 
-	typedef Matrix<bool_t> result_mat_t;
-	typedef Matrix<matrix_component_t> dist_mat_t;
+public:
+	using bool_t = typename polygon_mask_t::bool_t;	//use the same type as the masks
+	using result_mat_t = Matrix<bool_t>;
+	using matrix_component_t = typename polygon_mask_t::matrix_component_t;
+	using dist_mat_t = Matrix<dist_map_component_t>;
 
+
+private:
 	//assign +1's and -1's to all matrix elements on the edges of the binary mask
 	void process_step_1(Matrix<uchar>& m_matrix, Matrix<int>& interp_mat, size_t& made_1, size_t& made_n1) {
 
@@ -327,7 +332,7 @@ class PolygonMaskInterpolator {
 	public:
 	PolygonMaskInterpolator() {}
 
-	result_mat_t interpolate(polygon_mask_t& pm1, polygon_mask_t& pm2, weight_t pm1_weight = 1.0, weight_t pm2_weight = 1.0) {
+	result_mat_t interpolate(polygon_mask_t& pm1, polygon_mask_t& pm2, weight_t pm1_weight = 1, weight_t pm2_weight = 1) {
 
 		//extend each polygon mask to match the other in size
 		auto pm1_matched = pm1.match_size_to(pm2),
@@ -348,7 +353,7 @@ class PolygonMaskInterpolator {
 
 		pm1_matched.show("poly 1");
 		pm2_matched.show("poly 2");
-		GuiInterface::show_image<int>("sum of distance maps", interp_result);
+		GuiInterface::show_image<dist_map_component_t>("sum of distance maps", interp_result);
 
 		//GuiInterface::show_image();
 

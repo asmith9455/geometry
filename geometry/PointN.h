@@ -1,8 +1,14 @@
 #pragma once
 
-template <class component_t, size_t dimension>
+template <class TComponent, size_t Dimension>
 class PointN
 {
+public:
+
+	using component_t = TComponent;
+	
+	static const auto dimension = Dimension;
+
 private:
 
 	static_assert(dimension == 3 || dimension == 2, "PointN must have dimension 2 or 3.");

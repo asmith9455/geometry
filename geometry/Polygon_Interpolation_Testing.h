@@ -5,11 +5,13 @@
 
 namespace polygon_interpolation_testing
 {
+	using bool_t = uchar;
+	using component_t = double;
+	using point_t = PointN<component_t, 2>;
+	
 
-	typedef double component_t;
-	typedef PointN<component_t, 2> point_t;
-	typedef Polygon<component_t, 2> poly_t_2d;
-	typedef PolygonMask<PointN, component_t, 2, component_t> polygon_mask_t;
+	using poly_t_2d = Polygon<point_t>;
+	using polygon_mask_t = PolygonMask<poly_t_2d, component_t, bool_t>;
 
 	std::pair<poly_t_2d, poly_t_2d> get_test_polygon(size_t index) {
 
