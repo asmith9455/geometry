@@ -29,7 +29,7 @@ int main()
 	std::vector<interp_result_t> results;
 	std::vector<std::string> names;
 
-	size_t num_interps = 100;
+	size_t num_interps = 1;
 
 
 	for (size_t i = 1; i <= num_interps; ++i) {
