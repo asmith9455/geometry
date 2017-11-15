@@ -23,7 +23,7 @@ int main()
 	auto poly2 = poly_pair.first, poly3 = poly_pair.second;
 
 	//set the resolution
-	double resolution = 0.04;
+	double resolution = 0.05;
 
 	polygon_mask_t pm(poly2, resolution), pm2(poly3, resolution), pm1_matched, pm2_matched;
 
