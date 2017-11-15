@@ -53,7 +53,7 @@ namespace geometry {
 							static_cast<component_t>(adjusted_row_index*m_resolution) + m_bounding_rectangle.get_lower_left_point().y()
 						);
 
-						matrix_component_t val = m_polygon.contains_xy(point) * 255;
+						bool_t val = m_polygon.contains_xy(point) * std::numeric_limits<bool_t>::max();;
 						m_matrix(adjusted_row_index, col) = val;
 
 

@@ -17,10 +17,19 @@
     <Filter Include="Source Files\interpolation">
       <UniqueIdentifier>{bd2f21cc-df4e-4ed8-a5f1-21450241608c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\examples">
+      <UniqueIdentifier>{8c6984a1-bd1f-49c4-84c6-a5fd88260456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\geometry_examples.cpp">
+      <Filter>Source Files\examples</Filter>
+    </ClCompile>
+    <ClCompile Include="polygon_interpolation_testing.cpp">
+      <Filter>Source Files\interpolation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="primitive_generators\triangle_generator.h">
       <Filter>Source Files\primitive_generators</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\geometry_examples.h">
+      <Filter>Source Files\examples</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

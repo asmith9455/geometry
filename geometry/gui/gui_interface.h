@@ -79,15 +79,29 @@ namespace geometry {
 
 				imgs.push_back(get_cv_img_from_matrix(pm2_extended.get_data_matrix()));
 
+				//cyle through the images from first to last, then back again from last to first.
 
 				auto img_it = imgs.begin();
+				auto r_img_it = imgs.rbegin();
+				bool going_forwards = true;
 
 				while ((cv::waitKey(100) & 0xEFFFFF) != 27) {
 
-					cv::imshow("animation", *img_it);
+					if (going_forwards)
+						cv::imshow("animation", *img_it);
+					else
+						cv::imshow("animation", *r_img_it);
 
-					if ((++img_it) == imgs.end())
+					if (going_forwards && (++img_it == imgs.end())) {
 						img_it = imgs.begin();
+						going_forwards = false;
+						cv::waitKey(150);
+					}
+					else if (!going_forwards && (++r_img_it == imgs.rend())) {
+						r_img_it = imgs.rbegin();
+						going_forwards = true;
+						cv::waitKey(150);
+					}
 
 				}
 

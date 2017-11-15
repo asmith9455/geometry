@@ -336,13 +336,14 @@ namespace geometry {
 				return result;
 			}
 
-		public:
-			polygon_mask_interpolator() {}
-
 			void get_matched_poly_masks(polygon_mask_t& pm1, polygon_mask_t& pm2, polygon_mask_t& pm1_matched, polygon_mask_t& pm2_matched) {
 				pm1_matched = pm1.match_size_to(pm2);
 				pm2_matched = pm2.match_size_to(pm1);
 			}
+
+		public:
+
+			polygon_mask_interpolator() {}
 
 			result_mat_t interpolate_via_matched_masks(polygon_mask_t& pm1_matched, polygon_mask_t& pm2_matched, weight_t pm1_weight = 1, weight_t pm2_weight = 1) {
 
@@ -399,6 +400,39 @@ namespace geometry {
 				auto filtered_result = get_bool_mat(interp_result, pm1.area(), pm2.area(), pm1_weight, pm2_weight);
 
 				return filtered_result;
+
+			}
+
+			std::pair<std::vector<result_mat_t>, std::vector<std::string>>
+				interpolate_multi(polygon_mask_t& pm1, polygon_mask_t& pm2, size_t num_interps) {
+
+				polygon_mask_t pm1_matched, pm2_matched;
+
+				get_matched_poly_masks(pm1, pm2, pm1_matched, pm2_matched);
+
+				std::vector<result_mat_t> results;
+				std::vector<std::string> names;
+
+
+				for (size_t i = 1; i <= num_interps; ++i) {
+
+					int
+						weight_2 = static_cast<int>(i),
+						weight_1 = static_cast<int>(num_interps - i + 1);
+
+					std::cout << "normalized weight 1: " << static_cast<double>(weight_1) / (weight_1 + weight_2) << std::endl;
+					std::cout << "weight 1 : weight 2: " << weight_1 << " : " << weight_2 << std::endl;
+					std::cout << "normalized weight 2: " << static_cast<double>(weight_2) / (weight_1 + weight_2) << std::endl << std::endl;
+
+					results.push_back(interpolate_via_matched_masks(pm1_matched, pm2_matched, weight_1, weight_2));
+					names.push_back("result" + std::to_string(i));
+
+				}
+
+				geometry::gui::matrix_graphics_functions::
+					show_images_animation<bool_t, polygon_mask_t>(names, results, pm1_matched, pm2_matched, true);
+
+				return { results, names };
 
 			}
 

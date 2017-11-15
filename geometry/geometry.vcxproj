@@ -118,9 +118,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="examples\geometry_examples.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="polygon_interpolation_testing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="examples\geometry_examples.h" />
     <ClInclude Include="gui\gui_interface.h" />
     <ClInclude Include="interpolation\polygon_mask_interpolator.h" />
     <ClInclude Include="interpolation\polygon_interpolation_testing.h" />
