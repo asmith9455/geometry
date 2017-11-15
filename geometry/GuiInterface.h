@@ -4,6 +4,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <string>
+#include <iostream>
+#include <PolygonMask.h>
 
 class GuiInterface {
 
@@ -48,29 +50,64 @@ public:
 
 	}
 
+	template<class T, class TPolygonMask>
+	static void show_images_animation(std::vector<std::string> names, std::vector<Matrix<T>> mats, TPolygonMask pm1_extended, TPolygonMask pm2_extended,  bool close_all_windows = false) {
+
+		auto name = names.begin();
+		auto mat = mats.begin();
+
+		std::vector<cv::Mat> imgs;
+
+		imgs.push_back(get_cv_img_from_matrix(pm1_extended.get_data_matrix()));
+
+		for (;
+			name != names.end() && mat != mats.end();
+			++name, ++mat)
+		{
+			imgs.push_back(get_cv_img_from_matrix(*mat));
+			//show_image<T>(*name, *mat);
+		}
+
+		imgs.push_back(get_cv_img_from_matrix(pm2_extended.get_data_matrix()));
+			
+
+		auto img_it = imgs.begin();
+
+		while ((cv::waitKey(100) & 0xEFFFFF) != 27) {
+			
+			cv::imshow("animation", *img_it);
+
+			if ((++img_it) == imgs.end())
+				img_it = imgs.begin();
+
+		}
+			
+
+		cv::destroyAllWindows();
+
+	}
+
 	template<class T>
-	static void show_image(std::string name, Matrix<T> m, bool close_all_windows = false) {
+	static cv::Mat get_cv_img_from_matrix(Matrix<T> m) {
 
 		{ //UNCOMMENT TO DISPLAY EACH ITERATION
 			int tmp_min = m.min();
 			int tmp_max = m.max();
 
-			std::cout << "---------------------------------------------------" << std::endl;
+			/*std::cout << "---------------------------------------------------" << std::endl;
 			std::cout << "Name is: " << name << std::endl;
-			std::cout << "Original Min -> Max: " << tmp_min << " -> " << tmp_max << std::endl;
+			std::cout << "Original Min -> Max: " << tmp_min << " -> " << tmp_max << std::endl;*/
 
 			m.subtract(tmp_min);
 			double factor = 250.0 / static_cast<double>(tmp_max - tmp_min);
 			m.multiply_double(factor);
 
-			std::cout << "Adjusted Min -> Max: " << m.min() << " -> " << m.max() << std::endl;
+			/*std::cout << "Adjusted Min -> Max: " << m.min() << " -> " << m.max() << std::endl;
 
 			std::cout << "dimension: " << m.width() << " x " << m.height() << std::endl;
 
-			std::cout << "---------------------------------------------------" << std::endl;
+			std::cout << "---------------------------------------------------" << std::endl;*/
 		}
-
-
 
 		cv::Mat img = cv::Mat(static_cast<int>(m.height()), static_cast<int>(m.width()), CV_8U);
 
@@ -90,7 +127,6 @@ public:
 			}
 		}
 
-
 		int height = 360;
 
 		double resize_factor = static_cast<double>(height) / img.rows;
@@ -103,11 +139,23 @@ public:
 		size_t num_vertical_lines = 1;
 		size_t num_horizontal_lines = 1;
 
-		for (size_t i = 1; i <= num_vertical_lines; i++) 
-			draw_vertical_line(img, static_cast<double>(i)/(num_vertical_lines+1.0));
-		
+		for (size_t i = 1; i <= num_vertical_lines; i++)
+			draw_vertical_line(img, static_cast<double>(i) / (num_vertical_lines + 1.0));
+
 		for (size_t i = 1; i <= num_horizontal_lines; i++)
 			draw_horizontal_line(img, static_cast<double>(i) / (num_horizontal_lines + 1.0));
+
+
+		
+
+
+		return img;
+	}
+
+	template<class T>
+	static void show_image(std::string name, Matrix<T> m, bool close_all_windows = false) {
+
+		cv::Mat img = get_cv_img_from_matrix(m);
 
 		cv::imshow(name, img);cv::waitKey(100);
 

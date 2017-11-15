@@ -308,11 +308,11 @@ private:
 	}
 
 	//filter the summed distance map
-	result_mat_t get_bool_mat(dist_mat_t& dm, size_t area1, size_t area2) {
+	result_mat_t get_bool_mat(dist_mat_t& dm, size_t area1, size_t area2, weight_t pm1_weight, weight_t pm2_weight) {
 		//sorted least to greatest
 		auto uvals = dm.unique_values();
 
-		auto avg_area = (area1 + area2) / 2;
+		auto avg_area = (area1*pm1_weight + area2*pm2_weight) / (pm1_weight + pm2_weight);
 		
 		result_mat_t result;
 
@@ -331,6 +331,38 @@ private:
 
 	public:
 	PolygonMaskInterpolator() {}
+
+	void get_matched_poly_masks(polygon_mask_t& pm1, polygon_mask_t& pm2, polygon_mask_t& pm1_matched, polygon_mask_t& pm2_matched) {
+		pm1_matched = pm1.match_size_to(pm2);
+		pm2_matched = pm2.match_size_to(pm1);
+	}
+
+	result_mat_t interpolate_via_matched_masks(polygon_mask_t& pm1_matched, polygon_mask_t& pm2_matched, weight_t pm1_weight = 1, weight_t pm2_weight = 1) {
+
+		//first calculate the distance maps for each
+		auto dm1 = get_distance_map(pm1_matched),
+			dm2 = get_distance_map(pm2_matched);
+
+		//change interpolation weights
+		dm1.multiply_scalar<weight_t>(pm1_weight);
+		dm2.multiply_scalar<weight_t>(pm2_weight);
+
+		auto interp_result = dm1 + dm2;
+
+		//("interp poly 1", interp_mat1);
+		//GuiInterface::show_image<int>("interp poly 2", interp_mat2);
+
+		pm1_matched.show("poly 1");
+		pm2_matched.show("poly 2");
+		GuiInterface::show_image<dist_map_component_t>("sum of distance maps", interp_result);
+
+		//GuiInterface::show_image();
+
+		auto filtered_result = get_bool_mat(interp_result, pm1_matched.area(), pm2_matched.area(), pm1_weight, pm2_weight);
+
+		return filtered_result;
+
+	}
 
 	result_mat_t interpolate(polygon_mask_t& pm1, polygon_mask_t& pm2, weight_t pm1_weight = 1, weight_t pm2_weight = 1) {
 
@@ -357,7 +389,7 @@ private:
 
 		//GuiInterface::show_image();
 
-		auto filtered_result = get_bool_mat(interp_result, pm1.area(), pm2.area());
+		auto filtered_result = get_bool_mat(interp_result, pm1.area(), pm2.area(), pm1_weight, pm2_weight);
 
 		return filtered_result;
 

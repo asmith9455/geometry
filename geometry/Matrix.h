@@ -165,7 +165,7 @@ public:
 
 	}
 
-	T max() {
+	T max() const {
 		T max_value = std::numeric_limits<T>::min();
 		for (size_t row = 0; row != height(); row++) {
 			for (size_t col = 0; col != width(); col++) {
@@ -179,7 +179,7 @@ public:
 		return max_value;
 	}
 
-	T min() {
+	T min() const {
 		T min_value = std::numeric_limits<T>::max();
 		for (size_t row = 0; row != height(); row++) {
 			for (size_t col = 0; col != width(); col++) {
@@ -193,11 +193,11 @@ public:
 		return min_value;
 	}
 
-	size_t width() {
+	size_t width() const {
 		return m_width;
 	}
 
-	size_t height() {
+	size_t height() const {
 		return m_height;
 	}
 };

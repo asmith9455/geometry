@@ -20,27 +20,35 @@ int main()
 	//set the resolution
 	double resolution = 0.05;
 
-	polygon_mask_t pm(poly2, resolution), pm2(poly3, resolution);
+	polygon_mask_t pm(poly2, resolution), pm2(poly3, resolution), pm1_matched, pm2_matched;
 
 	poly_mask_interp_t pmi;
+
+	pmi.get_matched_poly_masks(pm, pm2, pm1_matched, pm2_matched);
 
 	std::vector<interp_result_t> results;
 	std::vector<std::string> names;
 
-	size_t num_interps = 10;
+	size_t num_interps = 100;
 
-	for (size_t i = 0; i < num_interps; i++) {
 
-		int 
-			weight_2 = static_cast<int>(i+1), 
-			weight_1 = static_cast<int>(num_interps - i);
+	for (size_t i = 1; i <= num_interps; ++i) {
 
-		results.push_back(pmi.interpolate(pm, pm2, weight_1, weight_2));
-		names.push_back("result" + std::to_string(i+1));
+		int
+			weight_2 = static_cast<int>(i), 
+			weight_1 = static_cast<int>(num_interps - i + 1);
+
+		std::cout << "normalized weight 1: " << static_cast<double>(weight_1) / (weight_1 + weight_2) << std::endl;
+		std::cout << "weight 1 : weight 2: " << weight_1 << " : " << weight_2 << std::endl;
+		std::cout << "normalized weight 2: " << static_cast<double>(weight_2) / (weight_1 + weight_2) << std::endl << std::endl;
+
+		results.push_back(pmi.interpolate_via_matched_masks(pm1_matched, pm2_matched, weight_1, weight_2));
+		names.push_back("result" + std::to_string(i));
 	
 	}
 
-	GuiInterface::show_images<bool_t>(names, results, true);
+
+	GuiInterface::show_images_animation<bool_t, polygon_mask_t>(names, results, pm1_matched, pm2_matched, true);
 
 	return 0;
 }

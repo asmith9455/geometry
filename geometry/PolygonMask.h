@@ -125,7 +125,7 @@ public:
 		return new_pm;
 	}
 
-	Matrix<uchar>& get_data_matrix() {
+	Matrix<bool_t>& get_data_matrix() {
 		return m_matrix;
 	}
 
