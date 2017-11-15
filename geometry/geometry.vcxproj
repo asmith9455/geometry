@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Alex\Source\Repos\geometry\geometry;C:\opencv_3_2_0\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/geometry;C:\opencv_3_2_0\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\opencv_3_2_0\build\x64\vc14\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -108,7 +108,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Alex\Source\Repos\geometry\geometry;C:\opencv_3_2_0\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/geometry;C:\opencv_3_2_0\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -118,26 +118,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="applicationDefines.h" />
-    <ClInclude Include="GuiInterface.h" />
-    <ClInclude Include="PolygonMask.h" />
-    <ClInclude Include="BinaryMaskInterpolator.h" />
-    <ClInclude Include="Matrix.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="PointN.h" />
-    <ClInclude Include="Polygon.h" />
-    <ClInclude Include="PolygonInterpolator.h" />
-    <ClInclude Include="PolygonMaskInterpolator.h" />
-    <ClInclude Include="Polygon_Interpolation_Testing.h" />
-    <ClInclude Include="Rectangle.h" />
-    <ClInclude Include="SystemCall.h" />
-    <ClInclude Include="TriangleGenerator.h" />
-    <ClInclude Include="Triangle.h" />
-    <ClInclude Include="X.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="SystemCall.cpp" />
+    <ClInclude Include="gui\gui_interface.h" />
+    <ClInclude Include="interpolation\polygon_mask_interpolator.h" />
+    <ClInclude Include="interpolation\polygon_interpolation_testing.h" />
+    <ClInclude Include="primitives\matrix.h" />
+    <ClInclude Include="primitives\mesh.h" />
+    <ClInclude Include="primitives\point_n.h" />
+    <ClInclude Include="primitives\polygon.h" />
+    <ClInclude Include="primitives\polygon_mask.h" />
+    <ClInclude Include="primitives\rectangle.h" />
+    <ClInclude Include="primitives\triangle.h" />
+    <ClInclude Include="primitive_generators\triangle_generator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

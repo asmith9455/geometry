@@ -5,71 +5,57 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{2e9f2697-407d-43d9-a87f-051dffc0ad10}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Source Files\primitives">
+      <UniqueIdentifier>{716b0757-578e-4ecd-a98c-4b7fa6408ab3}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Triangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TriangleGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="applicationDefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SystemCall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Polygon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PointN.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="X.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PolygonInterpolator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BinaryMaskInterpolator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PolygonMask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GuiInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Polygon_Interpolation_Testing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PolygonMaskInterpolator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Filter Include="Source Files\primitive_generators">
+      <UniqueIdentifier>{8bfa96dc-f5e5-4f7d-bb23-7cb4d3d8f9e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\interpolation">
+      <UniqueIdentifier>{bd2f21cc-df4e-4ed8-a5f1-21450241608c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SystemCall.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="interpolation\polygon_interpolation_testing.h">
+      <Filter>Source Files\interpolation</Filter>
+    </ClInclude>
+    <ClInclude Include="interpolation\polygon_mask_interpolator.h">
+      <Filter>Source Files\interpolation</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\gui_interface.h">
+      <Filter>Source Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\matrix.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\mesh.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\point_n.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\polygon.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\polygon_mask.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\rectangle.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitives\triangle.h">
+      <Filter>Source Files\primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="primitive_generators\triangle_generator.h">
+      <Filter>Source Files\primitive_generators</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
