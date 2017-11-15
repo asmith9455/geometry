@@ -11,3 +11,5 @@ Current features:
 * produces a binary mask (called a polygon mask in geometry) given a simple polygon and a bounding box.
 
 Currently working on "polygon interpolation", which attempts to generate a polygon that is a mix of the features of two separate polygons. This interpolation is currently not well defined.
+
+NOTE: lots of work remains to be done with code structure and project organization. Constructive criticism is welcome!
