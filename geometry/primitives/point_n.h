@@ -1,4 +1,5 @@
 #pragma once
+#include <ostream>
 
 namespace geometry {
 
@@ -69,7 +70,21 @@ namespace geometry {
 				return p1.y() < p2.y();
 			}
 
+			template <typename U, size_t D>
+			friend std::ostream& operator<<(std::ostream& os, const point_n<U, D>& p);
+
 		};
+
+		template <typename TComponent, size_t Dimension>
+		std::ostream& operator<<(std::ostream& os, const point_n<TComponent, Dimension>& p) {
+			
+			os << "point_" << Dimension;
+			os << "{ x = " << p.m_components[0];
+			os <<  " y = " << p.m_components[1];
+			os << " } ";
+
+			return os;
+		}
 
 		/*
 		template <class ComponentT>
