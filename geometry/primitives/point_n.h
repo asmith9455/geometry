@@ -47,15 +47,15 @@ namespace geometry {
 				m_components[2] = z;
 			}
 
-			component_t x() {
+			component_t x() const {
 				return m_components[0];
 			}
 
-			component_t y() {
+			component_t y() const {
 				return m_components[1];
 			}
 
-			component_t z() {
+			component_t z() const {
 				static_assert(dimension == 3, "Z component is only avaliable for points of dimension 3.");
 				return m_components[2];
 			}
@@ -70,17 +70,52 @@ namespace geometry {
 				return p1.y() < p2.y();
 			}
 
+			
+			template <typename U>
+			friend std::ostream& operator<<(std::ostream& os, const point_n<U, 2>& p);
+
+			template <typename U>
+			friend std::ostream& operator<<(std::ostream& os, const point_n<U, 3>& p);
+			
+			/* Option B for overloading << operator
 			template <typename U, size_t D>
-			friend std::ostream& operator<<(std::ostream& os, const point_n<U, D>& p);
+			friend std::ostream& operator<<(std::ostream& os, const point_n<U, D>& p);*/
 
 		};
 
+		/* Option B for overloading << operator
 		template <typename TComponent, size_t Dimension>
 		std::ostream& operator<<(std::ostream& os, const point_n<TComponent, Dimension>& p) {
+
+			os << "point_2 {";
+
+			for(const auto& c : p.m_components)
+				os << c << ", ";
+
+			os << " } ";
+
+			return os;
+		}*/
+		
+		
+		template <typename TComponent>
+		std::ostream& operator<<(std::ostream& os, const point_n<TComponent, 2>& p) {
+
+			os << "point_2 {";
+			os << " x = " << p.x() << ", ";
+			os << " y = " << p.y();
+			os << " } ";
+
+			return os;
+		}
+
+		template <typename TComponent>
+		std::ostream& operator<<(std::ostream& os, const point_n<TComponent, 3>& p) {
 			
-			os << "point_" << Dimension;
-			os << "{ x = " << p.m_components[0];
-			os <<  " y = " << p.m_components[1];
+			os << "point_3 {";
+			os << " x = " << p.x() << ", ";
+			os << " y = " << p.y() << ", ";
+			os << " z = " << p.z();
 			os << " } ";
 
 			return os;
